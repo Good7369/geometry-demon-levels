@@ -9,7 +9,8 @@
   <style>
     body {
       font-family: 'Orbitron', sans-serif;
-      background: #121212;
+      background: url('https://i.imgur.com/Yk8wR3n.jpg') no-repeat center center fixed;
+      background-size: cover;
       color: #e0e0e0;
       display: flex;
       justify-content: center;
@@ -203,7 +204,6 @@
       color: #560067;
     }
 
-    /* MODO /// */
     .modo-btn {
       margin-top: 30px;
       padding: 10px;
@@ -233,7 +233,6 @@
       color: white !important;
     }
 
-    /* Título principal */
     h1.main-title {
       margin-top: 60px;
       text-align: center;
@@ -242,7 +241,6 @@
       user-select: none;
     }
 
-    /* Pie de página */
     p.footer {
       font-size: 12px;
       margin-top: 40px;
@@ -314,41 +312,6 @@
       } else {
         body.classList.remove('light-theme');
       }
-    }
-
-    let modoActivo = false;
-    let rightClickCount = 0;
-
-    function activarModo() {
-      if (modoActivo) return;
-      modoActivo = true;
-
-      document.body.classList.add('modo-activated');
-      document.getElementById('mainContent').classList.add('falling');
-      document.getElementById('menuBtn').classList.add('falling');
-      document.getElementById('configPanel').classList.add('falling');
-
-      document.addEventListener('contextmenu', contarClicks);
-    }
-
-    function contarClicks(e) {
-      e.preventDefault();
-      rightClickCount++;
-      if (rightClickCount >= 3) {
-        desactivarModo();
-      }
-    }
-
-    function desactivarModo() {
-      modoActivo = false;
-      rightClickCount = 0;
-
-      document.body.classList.remove('modo-activated');
-      document.getElementById('mainContent').classList.remove('falling');
-      document.getElementById('menuBtn').classList.remove('falling');
-      document.getElementById('configPanel').classList.remove('falling');
-
-      document.removeEventListener('contextmenu', contarClicks);
     }
   </script>
 </body>
