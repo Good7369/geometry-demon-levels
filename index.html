@@ -1,37 +1,323 @@
-<script>
-  function toggleConfig(open) {
-    const panel = document.getElementById('configPanel');
-    const menuBtn = document.getElementById('menuBtn');
-    if (open) {
-      panel.classList.add('active');
-      menuBtn.classList.add('hidden');
-    } else {
-      panel.classList.remove('active');
-      menuBtn.classList.remove('hidden');
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Selector de Niveles Extreme Demon</title>
+  <link rel="icon" href="amethyst-icon.png" />
+  <link rel="apple-touch-icon" href="amethyst-icon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: url('https://i.imgur.com/Yk8wR3n.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #e0e0e0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      flex-direction: column;
+      transition: background 0.3s, color 0.3s;
     }
-  }
 
-  function toggleTheme() {
-    const body = document.body;
-    const checkbox = document.getElementById('themeToggle');
-    if (checkbox.checked) {
-      body.classList.add('light-theme');
-    } else {
-      body.classList.remove('light-theme');
+    .light-theme {
+      background: url('https://i.imgur.com/FREZ3My.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #111111;
     }
-  }
 
-  function toggleFondo() {
-    const body = document.body;
-    const fondoCheckbox = document.getElementById('fondoToggle');
-    if (fondoCheckbox.checked) {
-      body.classList.add('fondo-claro');
-    } else {
-      body.classList.remove('fondo-claro');
+    .container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 960px;
+      transition: transform 1s, opacity 1s;
     }
-  }
 
-  function activarModo() {
-    document.body.classList.toggle('modo-activated');
-  }
-</script>
+    .btn-level {
+      background: #222;
+      border: 3px solid #210025;
+      border-radius: 12px;
+      width: 180px;
+      height: 180px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      text-decoration: none;
+      color: #210025;
+      font-weight: bold;
+      box-shadow: 0 0 10px #210025;
+    }
+
+    .btn-level:hover {
+      border-color: #d400ff;
+      box-shadow: 0 0 25px #d400ff;
+    }
+
+    .btn-level img {
+      max-width: 140px;
+      max-height: 100px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      box-shadow: 0 0 15px #210025;
+    }
+
+    .menu-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-btn div {
+      width: 30px;
+      height: 4px;
+      background-color: #63006e;
+      margin: 5px 0;
+      border-radius: 2px;
+      transition: opacity 0.3s ease;
+    }
+
+    .menu-btn.hidden {
+      display: none;
+    }
+
+    .config-panel {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 250px;
+      height: 100%;
+      background-color: #1e1e1e;
+      box-shadow: 4px 0 15px rgba(34, 0, 49, 0.3);
+      transition: left 0.3s ease;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .config-panel.active {
+      left: 0;
+    }
+
+    .config-panel .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #210025;
+      cursor: pointer;
+    }
+
+    .config-panel h2 {
+      color: #210025;
+      margin-top: 50px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+      margin-top: 20px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 26px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #210025;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    .light-theme .btn-level {
+      background: #f0f0f0;
+      color: #560067;
+      border: 3px solid #560067;
+      box-shadow: 0 0 10px #560067;
+    }
+
+    .light-theme .btn-level:hover {
+      border-color: #d400ff;
+      box-shadow: 0 0 20px #d400ff;
+    }
+
+    .light-theme .btn-level img {
+      box-shadow: 0 0 10px #d400ff;
+    }
+
+    .light-theme .config-panel {
+      background-color: #eaeaea;
+      color: #000;
+    }
+
+    .light-theme .config-panel h2 {
+      color: #560067;
+    }
+
+    .light-theme .menu-btn div {
+      background-color: #560067;
+    }
+
+    .light-theme .config-panel .close-btn {
+      color: #560067;
+    }
+
+    .modo-btn {
+      margin-top: 30px;
+      padding: 10px;
+      width: 100%;
+      background: rgb(0, 0, 0);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .falling {
+      animation: fall 1s forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(90deg);
+        opacity: 0;
+      }
+    }
+
+    .modo-activated {
+      background-color: #8b0000 !important;
+      color: white !important;
+    }
+
+    h1.main-title {
+      margin-top: 60px;
+      text-align: center;
+      font-size: 28px;
+      color: #9100d4;
+      user-select: none;
+    }
+
+    p.footer {
+      font-size: 12px;
+      margin-top: 40px;
+      opacity: 0.6;
+      text-align: center;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <button class="menu-btn" id="menuBtn" onclick="toggleConfig(true)">
+    <div></div>
+    <div></div>
+    <div></div>
+  </button>
+
+  <h1 class="main-title">Niveles de Geometry Dash de la Demon List</h1>
+
+  <div class="config-panel" id="configPanel">
+    <button class="close-btn" onclick="toggleConfig(false)">✖</button>
+    <h2>Configuración</h2>
+    <label style="margin-top: 30px;">Tema</label>
+    <label class="switch">
+      <input type="checkbox" id="themeToggle" onchange="toggleTheme()" />
+      <span class="slider"></span>
+    </label>
+    <button class="modo-btn" onclick="activarModo()">MODO ///</button>
+  </div>
+
+  <div class="container" id="mainContent">
+    <a href="Tidal%20Wave.html" class="btn-level" title="Tidal Wave">
+      <img src="https://i.imgur.com/kyxrzvd.jpg" alt="Tidal Wave" />
+      Tidal Wave
+    </a>
+    <a href="AMETHYST.html" class="btn-level" title="Amethyst">
+      <img src="https://i.imgur.com/XwoliJc.jpg" alt="Amethyst" />
+      Amethyst
+    </a>
+    <a href="THINKING%20SPACE%20II.html" class="btn-level" title="Thinking Space II">
+      <img src="https://i.imgur.com/eO5G7jh.jpg" alt="Thinking Space II" />
+      Thinking Space II
+    </a>
+    <a href="SLAUGHTERHOUSE.html" class="btn-level" title="Slaughterhouse">
+      <img src="https://i.imgur.com/GppNahq.jpg" alt="Slaughterhouse" />
+      Slaughterhouse
+    </a>
+  </div>
+
+  <p class="footer">Página de Adrian Lara 10-2</p>
+
+  <script>
+    function toggleConfig(open) {
+      const panel = document.getElementById('configPanel');
+      const menuBtn = document.getElementById('menuBtn');
+      if (open) {
+        panel.classList.add('active');
+        menuBtn.classList.add('hidden');
+      } else {
+        panel.classList.remove('active');
+        menuBtn.classList.remove('hidden');
+      }
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      const checkbox = document.getElementById('themeToggle');
+      if (checkbox.checked) {
+        body.classList.add('light-theme');
+      } else {
+        body.classList.remove('light-theme');
+      }
+    }
+
+    function activarModo() {
+      document.body.classList.toggle('modo-activated');
+    }
+  </script>
+</body>
+</html>
