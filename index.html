@@ -9,7 +9,7 @@
   <style>
     body {
       font-family: 'Orbitron', sans-serif;
-      background: url('https://i.imgur.com/Yk8wR3n.jpg') no-repeat center center fixed;
+      background: url('https://i.imgur.com/wjltzQk.jpg') no-repeat center center fixed;
       background-size: cover;
       color: #e0e0e0;
       display: flex;
@@ -22,9 +22,12 @@
       transition: background 0.3s, color 0.3s;
     }
 
+    .fondo-claro {
+      background: url('https://i.imgur.com/lDVNCr8.jpg') no-repeat center center fixed !important;
+      background-size: cover !important;
+    }
+
     .light-theme {
-      background: url('https://i.imgur.com/FREZ3My.jpg') no-repeat center center fixed;
-      background-size: cover;
       color: #111111;
     }
 
@@ -209,29 +212,13 @@
       margin-top: 30px;
       padding: 10px;
       width: 100%;
-      background: rgb(0, 0, 0);
+      background: black;
       color: white;
       border: none;
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
       font-size: 14px;
-    }
-
-    .falling {
-      animation: fall 1s forwards;
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(100vh) rotate(90deg);
-        opacity: 0;
-      }
-    }
-
-    .modo-activated {
-      background-color: #8b0000 !important;
-      color: white !important;
     }
 
     h1.main-title {
@@ -263,31 +250,27 @@
   <div class="config-panel" id="configPanel">
     <button class="close-btn" onclick="toggleConfig(false)">✖</button>
     <h2>Configuración</h2>
+
     <label style="margin-top: 30px;">Tema</label>
     <label class="switch">
       <input type="checkbox" id="themeToggle" onchange="toggleTheme()" />
       <span class="slider"></span>
     </label>
+
+    <label style="margin-top: 20px;">Fondo claro</label>
+    <label class="switch">
+      <input type="checkbox" id="fondoToggle" onchange="toggleFondo()" />
+      <span class="slider"></span>
+    </label>
+
     <button class="modo-btn" onclick="activarModo()">MODO ///</button>
   </div>
 
   <div class="container" id="mainContent">
-    <a href="Tidal%20Wave.html" class="btn-level" title="Tidal Wave">
-      <img src="https://i.imgur.com/kyxrzvd.jpg" alt="Tidal Wave" />
-      Tidal Wave
-    </a>
-    <a href="AMETHYST.html" class="btn-level" title="Amethyst">
-      <img src="https://i.imgur.com/XwoliJc.jpg" alt="Amethyst" />
-      Amethyst
-    </a>
-    <a href="THINKING%20SPACE%20II.html" class="btn-level" title="Thinking Space II">
-      <img src="https://i.imgur.com/eO5G7jh.jpg" alt="Thinking Space II" />
-      Thinking Space II
-    </a>
-    <a href="SLAUGHTERHOUSE.html" class="btn-level" title="Slaughterhouse">
-      <img src="https://i.imgur.com/GppNahq.jpg" alt="Slaughterhouse" />
-      Slaughterhouse
-    </a>
+    <a href="Tidal%20Wave.html" class="btn-level"><img src="https://i.imgur.com/kyxrzvd.jpg" alt="Tidal Wave" />Tidal Wave</a>
+    <a href="AMETHYST.html" class="btn-level"><img src="https://i.imgur.com/XwoliJc.jpg" alt="Amethyst" />Amethyst</a>
+    <a href="THINKING%20SPACE%20II.html" class="btn-level"><img src="https://i.imgur.com/eO5G7jh.jpg" alt="Thinking Space II" />Thinking Space II</a>
+    <a href="SLAUGHTERHOUSE.html" class="btn-level"><img src="https://i.imgur.com/GppNahq.jpg" alt="Slaughterhouse" />Slaughterhouse</a>
   </div>
 
   <p class="footer">Página de Adrian Lara 10-2</p>
@@ -313,11 +296,38 @@
       } else {
         body.classList.remove('light-theme');
       }
+      localStorage.setItem('theme', checkbox.checked ? 'light' : 'dark');
+    }
+
+    function toggleFondo() {
+      const body = document.body;
+      const fondoCheckbox = document.getElementById('fondoToggle');
+      if (fondoCheckbox.checked) {
+        body.classList.add('fondo-claro');
+      } else {
+        body.classList.remove('fondo-claro');
+      }
+      localStorage.setItem('fondo', fondoCheckbox.checked ? 'claro' : 'oscuro');
     }
 
     function activarModo() {
       document.body.classList.toggle('modo-activated');
     }
+
+    window.onload = () => {
+      const theme = localStorage.getItem('theme');
+      const fondo = localStorage.getItem('fondo');
+
+      if (theme === 'light') {
+        document.body.classList.add('light-theme');
+        document.getElementById('themeToggle').checked = true;
+      }
+
+      if (fondo === 'claro') {
+        document.body.classList.add('fondo-claro');
+        document.getElementById('fondoToggle').checked = true;
+      }
+    };
   </script>
 </body>
 </html>
