@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>AMETHYST</title>
+  <link rel="icon" href="amethyst-icon.png" />
+  <link rel="apple-touch-icon" href="amethyst-icon.png" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      color: #e0e0e0;
+      background: linear-gradient(135deg, #4b0082, #800080, #b19cd9);
+      background-size: 400% 400%;
+      animation: shimmer 12s ease infinite;
+      padding: 30px;
+      transition: all 0.3s;
+    }
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    h1 {
+      font-size: 3em;
+      color: #d1c4e9;
+      text-align: center;
+      text-shadow: 0 0 20px #e1bee7;
+    }
+    p {
+      font-size: 1.2em;
+      line-height: 1.6;
+      background-color: rgba(75, 0, 130, 0.7);
+      padding: 15px;
+      border-left: 4px solid #ba68c8;
+      margin-bottom: 30px;
+    }
+    img {
+      display: block;
+      margin: 30px auto;
+      border: 5px solid #7b1fa2;
+      box-shadow: 0 0 20px #4a148c;
+      max-width: 90%;
+    }
+    a {
+      color: #070707;
+      font-weight: bold;
+    }
+    #stormBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #7b1fa2;
+      color: white;
+      padding: 15px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #4a148c;
+      cursor: pointer;
+      animation: pulse 3s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 10px #4a148c; }
+      50% { box-shadow: 0 0 30px #ab47bc; }
+    }
+    @keyframes pulse-mode {
+      0% { background: #33004d; transform: scale(1); }
+      25% { background: #1a0033; transform: scale(1.02); }
+      50% { background: #4d005f; transform: scale(0.98); }
+      75% { background: #26004b; transform: scale(1.03); }
+      100% { background: #33004d; transform: scale(1); }
+    }
+    @keyframes text-flicker {
+      0%,100% { text-shadow: 0 0 10px #e1bee7; }
+      50% { text-shadow: 0 0 20px #4a148c; }
+    }
+    .pulse-mode {
+      animation: pulse-mode 0.3s infinite;
+    }
+    .flicker-text {
+      animation: text-flicker 1s infinite;
+    }
+    
+    /* INICIO DEL BOTÓN "Inicio" ARRIBA IZQUIERDA */
+    .boton-inicio {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+    }
+    .boton-inicio a {
+      color: rgb(0, 0, 0); /* color rojo para que lo veas */
+      text-decoration: underline;
+      font-weight: bold;
+      font-family: 'Orbitron', sans-serif;
+      cursor: pointer;
+    }
+    /* FIN DEL BOTÓN "Inicio" */
+  </style>
+</head>
+<body>
+
+  <!-- INICIO DEL BOTÓN "Inicio" ARRIBA IZQUIERDA -->
+  <div class="boton-inicio">
+    <a href="Niveles de geometry dash de la demon list.html">Inicio</a>
+  </div>
+  <!-- FIN DEL BOTÓN "Inicio" -->
+
+  <h1 class="logo">♦ AMETHYST ♦</h1>
+
+  <p>
+"Amethyst" en Geometry Dash es un nivel de dificultad Extreme Demon, conocido por ser un megacolaboración alojada por Mist y verificada por wPopoff. Se distingue por su temática de cueva de amatista/cristal y su paleta de colores que incluye azul, rosa, morado y rojo, inspirada en el nivel "The Golden". Fue calificado el 4 de junio de 2025 y alcanzó el puesto número 1 en la Demonlist, superando a Tidal Wave como el nivel más difícil actual de Geometry Dash.
+  </p>
+
+  <img src="https://i.imgur.com/XwoliJc.jpg" alt="Amethyst Geometry Dash" />
+
+  <p>
+    Mira el gameplay de referencia:
+    <a href="https://www.youtube.com/watch?v=2Z7NGo83ZnU" target="_blank">Amethyst Showcase</a>
+  </p>
+
+  <h2>CRÉDITOS</h2>
+  <ul>
+    <li>Creador original: Rebecca Sugar</li>
+    <li>Verificador: wPopoff</li>
+  </ul>
+
+  <button id="stormBtn">🌌 ENTRAR EN MODO ÉTEREO</button>
+
+  <audio id="ambience" src="amethyst-ambient.mp3" preload="auto"></audio>
+
+  <script>
+    let pulse = false;
+    const ambience = document.getElementById("ambience");
+    const btn = document.getElementById("stormBtn");
+    btn.addEventListener("click", () => {
+      if (!pulse) {
+        document.body.classList.add('pulse-mode');
+        document.querySelectorAll('h1, p, img').forEach(el => el.classList.add('flicker-text'));
+        ambience.currentTime = 0;
+        ambience.play().catch(e => console.warn('error audio', e));
+        btn.textContent = '🌑 SALIR DEL MODO ÉTEREO';
+      } else {
+        document.body.classList.remove('pulse-mode');
+        document.querySelectorAll('h1, p, img').forEach(el => el.classList.remove('flicker-text'));
+        ambience.pause();
+        btn.textContent = '🌌 ENTRAR EN MODO ÉTEREO';
+      }
+      pulse = !pulse;
+    });
+  </script>
+</body>
+</html>
